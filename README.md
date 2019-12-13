@@ -1,29 +1,29 @@
 ## Woocommerce Erpnext
+based on https://github.com/ashish-greycube/woocommerce_erpnext
 
-Integration between WooCommerce and ERPNext
+2Way Integration between WooCommerce and ERPNext
+
+Items, Order, Order Status, Stock level, 
+changes:
+- Update order status after delivery note submit=> completed or cancel=> cancelled
+- update item image once 
+- actual stock quantity updated on daily schedule
+- added fields (sku, handle stock, Stock Qty based on warehouse in woo settings, favorite)
 
 # Install:
 
-    # from frappe-bench folder
-    # source ./env/bin/activate
-    # pip install woocommerce
-    # deactivate
-    # Setup:
-
-- Copy the existing woo-commerce connector "order" function in custom app
-  https://github.com/frappe/erpnext/blob/develop/erpnext/erpnext_integrations/connectors/woocommerce_connection.py#L23
-
-- Edit the code in point 1 to Ignore Item Edit / Creation , it should just link existing items in Sales Order.
+- Install with bench get-app / bench install-app
+- Add Custom fields in Woocommerce Settings : 
+	-Price List / Link / price_list
+	-Price List / Link / promo_price_list (for promo prices)
+	
+Order Sync replace the used in  https://github.com/frappe/erpnext/blob/develop/erpnext/erpnext_integrations/connectors/woocommerce_connection.py
+with content of file new_connector.py
 
 - To put sync (custom) button in "Woocommerce Settings", to sync all items.
-
 - On Save of Individual Item, sync Item from ERPNext to Woocommerce ( through the code attached below )
-
-- While saving individual item in ERPNext, check if the item exist in woocommerce, if yes update else create new ( At present in point 4 , it creates new items in woocommerce)
-
-- To check if the direct web link for the item images from erpnext ( e.g. http://demo.erpnext.com/files/two_apple-copiar.jpg(170 kB)
-  http://demo.erpnext.com/files/two_apple-copiar.jpg
-  ) can be linked to items in woocommerce
+- While saving individual item in ERPNext, check if the item exist in woocommerce, if yes update else create new 
+- To check if the direct web link for the item images from erpnext 
 
 ### add custom script for Woocommerce Settings doctype. can be exported as fixture
 
