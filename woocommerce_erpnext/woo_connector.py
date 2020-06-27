@@ -106,7 +106,7 @@ def sync_product_categories(item_group=None):
     categories = {}
     print("r: %s" % r)
     for d in r:
-	print("data : %s" % d["name"])
+        print("data : %s" % d["name"])
         categories[d["name"]] = d["id"]
 
     print("Syncing categories: ", categories)
@@ -116,17 +116,14 @@ def sync_product_categories(item_group=None):
             if not d.woocommerce_id_za:
                 if categories.get(d.name):
                     # update erpnext item group with woo id
-                    frappe.db.set_value("Item Group", d.name,
-                                        "woocommerce_id_za", categories.get(d.name))
+                    frappe.db.set_value("Item Group", d.name, "woocommerce_id_za", categories.get(d.name))
                 else:
                     # create category in woo
                     product_category_id = make_category(d.name)
-                    frappe.db.set_value("Item Group", d.name,
-                                        'woocommerce_id_za', product_category_id)
+                    frappe.db.set_value("Item Group", d.name, 'woocommerce_id_za', product_category_id)
             else:
                 if not categories.get(d.name) or not categories.get(d.name) == cint(d.woocommerce_id_za):
-                    frappe.throw(
-                        "Item group %s (%s) does not match WooCommerce Product Category %s" % (d.name, d.woocommerce_id_za, categories.get(d.name)))
+                    frappe.throw("Item group %s (%s) does not match WooCommerce Product Category %s" % (d.name, d.woocommerce_id_za, categories.get(d.name)))
 
     frappe.db.commit()
 
