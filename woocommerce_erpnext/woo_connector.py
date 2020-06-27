@@ -139,7 +139,7 @@ def on_update_item(doc, method=None):
     else:
         product = get_mapped_product(doc)
         r = get_connection().put("products/"+str(doc.woocommerce_id), product)
-	print("response : %s" % r)
+        print("response : %s" % r)
 
 def on_delete_item(doc,method=None):
 	if doc.woocommerce_id:
