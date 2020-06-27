@@ -165,48 +165,47 @@ def get_mapped_product(item_doc):
         "Item Group", item_doc.item_group, "woocommerce_id_za")
     woo_settings = frappe.get_doc("Woocommerce Settings")
     shopping_cart_settings = frappe.get_doc("Shopping Cart Settings")
-    item_price = get_price(item_doc.item_code, woo_settings.price_list,
-                           shopping_cart_settings.default_customer_group, woo_settings.company)
+    item_price = get_price(item_doc.item_code, woo_settings.price_list, shopping_cart_settings.default_customer_group, woo_settings.company)
     if woo_settings.promo_price_list:
-	promo = get_price(item_doc.item_code, woo_settings.promo_price_list, shopping_cart_settings.default_customer_group, woo_settings.company)
-    print("settings : %s %s" %  (woo_settings.warehouse or '',item_price))
-    warehouse = woo_settings.warehouse
-    qty = get_latest_stock_qty(item_doc.item_code, warehouse) or 0
+        promo = get_price(item_doc.item_code, woo_settings.promo_price_list, shopping_cart_settings.default_customer_group, woo_settings.company)
+        print("settings : %s %s" %  (woo_settings.warehouse or '',item_price))
+        warehouse = woo_settings.warehouse
+        qty = get_latest_stock_qty(item_doc.item_code, warehouse) or 0
 
-    product = {        
-	"featured": item_doc.is_featured,
-        "type": "simple",
-	"weight":str(item_doc.weight_per_unit or "0"),
-	"sku": item_doc.ugs,
-	"manage_stock":item_doc.is_stock_item,
-	"stock_quantity": qty ,
-        "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
-	"sale_price": promo and cstr(promo["price_list_rate"]) or "",
-        "description": item_doc.description,
-        "short_description": item_doc.description,
-	"name": item_doc.item_name,
-        "categories": [
-            {
-                "id": wc_product_category_id
-            }
-        ],
-	#"images":{}
-        #"images": [
-        #    {
-        #        "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
-                # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
-        #    }
-        #]
-    }
+        product = {        
+        "featured": item_doc.is_featured,
+            "type": "simple",
+        "weight":str(item_doc.weight_per_unit or "0"),
+        "sku": item_doc.ugs,
+        "manage_stock":item_doc.is_stock_item,
+        "stock_quantity": qty ,
+            "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
+        "sale_price": promo and cstr(promo["price_list_rate"]) or "",
+            "description": item_doc.description,
+            "short_description": item_doc.description,
+        "name": item_doc.item_name,
+            "categories": [
+                {
+                    "id": wc_product_category_id
+                }
+            ],
+        #"images":{}
+            #"images": [
+            #    {
+            #        "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
+                    # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
+            #    }
+            #]
+        }
 
     if item_doc.image and item_doc.send_product_image_again:
-	product['images'] = [
-            {
-                "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
-                # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
-            }
-        ]
-	frappe.db.set_value("Item", item_doc.item_code,"send_product_image_again", 0)
+        product['images'] = [
+                {
+                    "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
+                    # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
+                }
+            ]
+        frappe.db.set_value("Item", item_doc.item_code,"send_product_image_again", 0)
 
 
     if item_doc.woocommerce_id:
