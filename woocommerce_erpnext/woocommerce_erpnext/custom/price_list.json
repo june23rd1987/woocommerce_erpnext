@@ -22,7 +22,9 @@
    "parent": null,
    "parentfield": null,
    "parenttype": null,
+   "label": "Price List",
    "property_type": "Link",
+   "options": "Price List",
    "value": "Price List"
   },
   {
@@ -45,6 +47,7 @@
    "parentfield": null,
    "parenttype": null,
    "property_type": "Link",
+   "options": "Price List",
    "value": "Price List"
   }
  ],
