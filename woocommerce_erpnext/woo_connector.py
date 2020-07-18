@@ -246,7 +246,7 @@ def make_item(item_doc):
                             "woocommerce_id", woocommerce_id)               #woocommerce_product_id
         frappe.db.commit()
         return woocommerce_id                                               #woocommerce_product_id
-    else
+    else:
         print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (item_doc.item_name, item_doc.woocommerce_id) ) #jupiter
         
     
