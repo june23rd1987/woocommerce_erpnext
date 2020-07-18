@@ -235,7 +235,7 @@ def get_mapped_product(item_doc):
 
 
 def make_item(item_doc):
-    if item_doc.sync_with_woocommerce == 1:  #jupiter
+    if item_doc.sync_with_woocommerce == 1 and item_doc.disabled == 0:  #jupiter
         sync_product_categories(item_group=item_doc.item_group)
         product = get_mapped_product(item_doc)
         print(product)
@@ -247,7 +247,7 @@ def make_item(item_doc):
         frappe.db.commit()
         return woocommerce_id                                               #woocommerce_product_id
     else:
-        print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (item_doc.item_name, item_doc.woocommerce_id) ) #jupiter
+        print("skipped : %s - %s is sync_with_woocommerce!=1 or disabled == 0: not allowed to sync" % (item_doc.item_name, item_doc.woocommerce_id) ) #jupiter
         
     
 
