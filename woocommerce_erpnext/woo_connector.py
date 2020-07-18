@@ -73,12 +73,12 @@ def batch_sync_items():
         for d in batch:
             doc = frappe.get_doc("Item", d)
             if doc.sync_with_woocommerce != 1:
-		print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
-		continue;
+        print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
+        continue;
             if doc.disabled != 0:
-		print("skipped : %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
-		continue;
-            if not doc.woocommerce_id:				#woocommerce_product_id
+        print("skipped : %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
+        continue;
+            if not doc.woocommerce_id:              #woocommerce_product_id
                 create.append(get_mapped_product(doc))
             else:
                 update.append(get_mapped_product(doc))
@@ -93,7 +93,7 @@ def batch_sync_items():
 
         for d in r.get("create", []):
             frappe.db.set_value("Item", {"item_name": d.get(
-                "name")}, "woocommerce_id", d.get("id"))	#woocommerce_product_id
+                "name")}, "woocommerce_id", d.get("id"))    #woocommerce_product_id
             log(d)
 
         for d in r.get("update", []):
@@ -140,31 +140,31 @@ def on_validate_item(doc,method=None):
 
 @frappe.whitelist()
 def on_update_item(doc, method=None):
-    if not doc.woocommerce_id:									#woocommerce_product_id
+    if not doc.woocommerce_id:                                  #woocommerce_product_id
         make_item(doc)
     else:
         product = get_mapped_product(doc)
-        r = get_connection().put("products/"+str(doc.woocommerce_id), product)			#woocommerce_product_id
+        r = get_connection().put("products/"+str(doc.woocommerce_id), product)          #woocommerce_product_id
         print("response : %s" % r)
 
 def on_delete_item(doc,method=None):
-	if doc.woocommerce_id:									#woocommerce_product_id
-		r = get_connection().delete("products/"+str(doc.woocommerce_id))		#woocommerce_product_id
-		print(r)
+    if doc.woocommerce_id:                                  #woocommerce_product_id
+        r = get_connection().delete("products/"+str(doc.woocommerce_id))        #woocommerce_product_id
+        print(r)
 
 def on_delivery_submit(delivery, method=None):
-	if delivery.po_no:
-		order_no = delivery.po_no
-		order = {"status": "completed"}
-		r = get_connection().put("orders/"+str(order_no), order)
-		print("response : %s" % r)
+    if delivery.po_no:
+        order_no = delivery.po_no
+        order = {"status": "completed"}
+        r = get_connection().put("orders/"+str(order_no), order)
+        print("response : %s" % r)
 
 def on_delivery_cancel(delivery, method=None):
-	if delivery.po_no:
-		order_no = delivery.po_no
-		order = {"status": "cancelled"}
-		r = get_connection().put("orders/"+str(order_no), order)
-		print("response : %s" % r)
+    if delivery.po_no:
+        order_no = delivery.po_no
+        order = {"status": "cancelled"}
+        r = get_connection().put("orders/"+str(order_no), order)
+        print("response : %s" % r)
 
 def get_mapped_product(item_doc):
     wc_product_category_id = frappe.db.get_value(
@@ -179,22 +179,22 @@ def get_mapped_product(item_doc):
         qty = get_latest_stock_qty(item_doc.item_code, warehouse) or 0
 
         product = {        
-        	"featured": item_doc.is_featured,
-            	"type": "simple",
-        	"weight":str(item_doc.weight_per_unit or "0"),
-        	"sku": item_doc.item_code,								#jupiter from ugs -> item_code
-        	"manage_stock":item_doc.is_stock_item,
-        	"stock_quantity": qty ,
-            	"regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
-        	"sale_price": promo and cstr(promo["price_list_rate"]) or "",
-            	"description": item_doc.description,
-            	"short_description": item_doc.description,
-        	"name": item_doc.item_name,
-            	"categories": [
-                	{
-                    		"id": wc_product_category_id
-                	}
-            	],
+            "featured": item_doc.is_featured,
+                "type": "simple",
+            "weight":str(item_doc.weight_per_unit or "0"),
+            "sku": item_doc.item_code,                              #jupiter from ugs -> item_code
+            "manage_stock":item_doc.is_stock_item,
+            "stock_quantity": qty ,
+                "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
+            "sale_price": promo and cstr(promo["price_list_rate"]) or "",
+                "description": item_doc.description,
+                "short_description": item_doc.description,
+            "name": item_doc.item_name,
+                "categories": [
+                    {
+                            "id": wc_product_category_id
+                    }
+                ],
         #"images":{}
             #"images": [
             #    {
@@ -214,8 +214,8 @@ def get_mapped_product(item_doc):
         frappe.db.set_value("Item", item_doc.item_code,"send_product_image_again", 0)
 
 
-    if item_doc.woocommerce_id:								#woocommerce_product_id
-        product["id"] = item_doc.woocommerce_id						#woocommerce_product_id
+    if item_doc.woocommerce_id:                             #woocommerce_product_id
+        product["id"] = item_doc.woocommerce_id                     #woocommerce_product_id
 
     return product
 
@@ -226,11 +226,11 @@ def make_item(item_doc):
     print(product)
     r = get_connection().post("products", product).json()
     print(r)
-    woocommerce_id = r.get("id")							#woocommerce_product_id
+    woocommerce_id = r.get("id")                            #woocommerce_product_id
     frappe.db.set_value("Item", item_doc.item_code,
-                        "woocommerce_id", woocommerce_id)				#woocommerce_product_id
+                        "woocommerce_id", woocommerce_id)               #woocommerce_product_id
     frappe.db.commit()
-    return woocommerce_id								#woocommerce_product_id
+    return woocommerce_id                               #woocommerce_product_id
 
 
 def make_category(item_group, image=None):
