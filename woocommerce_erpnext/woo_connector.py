@@ -176,7 +176,7 @@ def get_mapped_product(item_doc):
         "featured": item_doc.is_featured,
             "type": "simple",
         "weight":str(item_doc.weight_per_unit or "0"),
-        "sku": item_doc.ugs,
+        "sku": item_doc.item_code,								#jupiter from ugs -> item_code
         "manage_stock":item_doc.is_stock_item,
         "stock_quantity": qty ,
             "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
