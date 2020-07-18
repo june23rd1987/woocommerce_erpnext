@@ -71,6 +71,7 @@ def batch_sync_items():
         create, update = [], []
         data = {"create": [], "update": []}
         for d in batch:
+            """
             doc = frappe.get_doc("Item", d)
             ##JUPITER
             if doc.sync_with_woocommerce != 1:
@@ -80,10 +81,12 @@ def batch_sync_items():
                 print("skipped : %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             #JUPITER
+            """
             if not doc.woocommerce_id:              #woocommerce_product_id
                 create.append(get_mapped_product(doc))
             else:
                 update.append(get_mapped_product(doc))
+                
         post_data = {}
         if create:
             post_data["create"] = create
@@ -232,17 +235,21 @@ def get_mapped_product(item_doc):
 
 
 def make_item(item_doc):
-    sync_product_categories(item_group=item_doc.item_group)
-    product = get_mapped_product(item_doc)
-    print(product)
-    r = get_connection().post("products", product).json()
-    print(r)
-    woocommerce_id = r.get("id")                            #woocommerce_product_id
-    frappe.db.set_value("Item", item_doc.item_code,
-                        "woocommerce_id", woocommerce_id)               #woocommerce_product_id
-    frappe.db.commit()
-    return woocommerce_id                               #woocommerce_product_id
-
+    if item_doc.sync_with_woocommerce == 1:  #jupiter
+        sync_product_categories(item_group=item_doc.item_group)
+        product = get_mapped_product(item_doc)
+        print(product)
+        r = get_connection().post("products", product).json()
+        print(r)
+        woocommerce_id = r.get("id")                                        #woocommerce_product_id
+        frappe.db.set_value("Item", item_doc.item_code,
+                            "woocommerce_id", woocommerce_id)               #woocommerce_product_id
+        frappe.db.commit()
+        return woocommerce_id                                               #woocommerce_product_id
+    else
+        print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (item_doc.item_name, item_doc.woocommerce_id) ) #jupiter
+        
+    
 
 def make_category(item_group, image=None):
     data = {
