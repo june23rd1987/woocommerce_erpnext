@@ -173,22 +173,22 @@ def get_mapped_product(item_doc):
         qty = get_latest_stock_qty(item_doc.item_code, warehouse) or 0
 
         product = {        
-        "featured": item_doc.is_featured,
-            "type": "simple",
-        "weight":str(item_doc.weight_per_unit or "0"),
-        "sku": item_doc.item_code,								#jupiter from ugs -> item_code
-        "manage_stock":item_doc.is_stock_item,
-        "stock_quantity": qty ,
-            "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
-        "sale_price": promo and cstr(promo["price_list_rate"]) or "",
-            "description": item_doc.description,
-            "short_description": item_doc.description,
-        "name": item_doc.item_name,
-            "categories": [
-                {
-                    "id": wc_product_category_id
-                }
-            ],
+        	"featured": item_doc.is_featured,
+            	"type": "simple",
+        	"weight":str(item_doc.weight_per_unit or "0"),
+        	"sku": item_doc.item_code,								#jupiter from ugs -> item_code
+        	"manage_stock":item_doc.is_stock_item,
+        	"stock_quantity": qty ,
+            	"regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
+        	"sale_price": promo and cstr(promo["price_list_rate"]) or "",
+            	"description": item_doc.description,
+            	"short_description": item_doc.description,
+        	"name": item_doc.item_name,
+            	"categories": [
+                	{
+                    		"id": wc_product_category_id
+                	}
+            	],
         #"images":{}
             #"images": [
             #    {
