@@ -1,16 +1,16 @@
 ## ALL INFORMATIONS BELOW ARE DEPRECATED
 
-I have made some tweaks to remove all the steps below :)
+I have made some tweaks to skipp all the steps below :)
 
 
 
 
 
-
-
-
-
-
+##
+##
+##
+##
+##
 
 
 
