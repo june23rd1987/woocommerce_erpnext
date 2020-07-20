@@ -5,6 +5,36 @@ I have made some tweaks to remove all the steps below :)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Woocommerce Erpnext https://ovresko.com/
 based on
 https://github.com/ashish-greycube/woocommerce_erpnext
