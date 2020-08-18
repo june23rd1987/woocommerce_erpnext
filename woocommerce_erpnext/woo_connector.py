@@ -171,6 +171,8 @@ def on_delivery_submit(delivery, method=None):
         order_no = delivery.po_no
         order = {"status": "completed"}
         r = get_connection().put("orders/"+str(order_no), order)
+        print("order_no : %s" % order_no)
+        print("order : %s" % order)
         print("response : %s" % r)
 
 def on_delivery_cancel(delivery, method=None):
