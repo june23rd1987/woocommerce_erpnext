@@ -194,31 +194,58 @@ def get_mapped_product(item_doc):
         warehouse = woo_settings.warehouse
         qty = get_latest_stock_qty(item_doc.item_code, warehouse) or 0
 
-        product = {        
-            "featured": item_doc.is_featured,
+        woocommerce_settings = frappe.get_doc("WooCommerce Config", "WooCommerce Config")                                                       #jupiter additional
+        if woocommerce_settings.sync_itemgroup_to_wp_categories:
+            product = {        
+                "featured": item_doc.is_featured,
                 "type": "simple",
-            "weight":str(item_doc.weight_per_unit or "0"),
-            "sku": item_doc.item_code,                              #jupiter from ugs -> item_code
-            "manage_stock":item_doc.is_stock_item,
-            "stock_quantity": qty ,
+                "weight":str(item_doc.weight_per_unit or "0"),
+                "sku": item_doc.item_code,                              #jupiter from ugs -> item_code
+                "manage_stock":item_doc.is_stock_item,
+                "stock_quantity": qty ,
                 "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
-            "sale_price": promo and cstr(promo["price_list_rate"]) or "",
+                "sale_price": promo and cstr(promo["price_list_rate"]) or "",
                 "description": item_doc.description,
                 "short_description": item_doc.description,
-            "name": item_doc.item_name,
+                "name": item_doc.item_name,
                 "categories": [
-                    {
-                            "id": wc_product_category_id
-                    }
-                ],
-        #"images":{}
-            #"images": [
-            #    {
-            #        "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
-                    # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
-            #    }
-            #]
-        }
+                        {
+                                "id": wc_product_category_id
+                        }
+                    ],
+            #"images":{}
+                #"images": [
+                #    {
+                #        "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
+                        # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
+                #    }
+                #]
+            }
+        else:
+            product = {        
+                "featured": item_doc.is_featured,
+                "type": "simple",
+                "weight":str(item_doc.weight_per_unit or "0"),
+                "sku": item_doc.item_code,                              #jupiter from ugs -> item_code
+                "manage_stock":item_doc.is_stock_item,
+                "stock_quantity": qty ,
+                "regular_price": item_price and cstr(item_price["price_list_rate"]) or "",
+                "sale_price": promo and cstr(promo["price_list_rate"]) or "",
+                "description": item_doc.description,
+                "short_description": item_doc.description,
+                "name": item_doc.item_name,
+            #"images":{}
+                #"images": [
+                #    {
+                #        "src": "{}/{}".format(frappe.utils.get_url(), item_doc.image) if (item_doc.image and ' ' not in item_doc.image) else ""
+                        # "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"
+                #    }
+                #]
+            }
+            
+        
+        
+        
 
     if item_doc.image and item_doc.send_product_image_again:
         product['images'] = [
