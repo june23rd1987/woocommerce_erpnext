@@ -113,7 +113,12 @@ def batch_sync_items():
             print("************************")
             pprint(d)
             print("************************")
-            doc = frappe.get_doc("Item", d)
+            try:
+                doc = frappe.get_doc("Item", d)
+            except IndexError:
+                print("Skipped")
+                continue #skip
+            
             ##JUPITER
             if doc.sync_with_woocommerce != 1:
                 print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
