@@ -106,7 +106,12 @@ scheduler_events = {
  	"daily": [],
  	"hourly": ["woocommerce_erpnext.woo_connector.sync_all_items"],
  	"weekly": [],
- 	"monthly": []
+ 	"monthly": [],
+	"cron": {
+		"*/10 * * * *": [
+			"woocommerce_erpnext.woo_connector.batch_sync_items"
+		]
+	}
 }
 
 # Testing
