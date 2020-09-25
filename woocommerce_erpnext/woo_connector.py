@@ -58,7 +58,7 @@ def batch_sync_items():
 
     def log(res):
         if not res.get("error"):
-            print("Success %s %s" % (res.get("name"), res.get("id")))
+            print("Success - Item Name: %s - Woocommerce ID: %s" % (res.get("name"), res.get("id")))
         else:
             print(res)
             # collect all error and email to user for failed imports.
