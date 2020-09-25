@@ -10,6 +10,7 @@ from erpnext.erpnext_integrations.connectors.woocommerce_connection import (
 import json
 import time
 
+from .utils import make_woocommerce_log, disable_woocommerce_sync_for_item
 
 def handle_response_error(r):
     if r.get("message"):
@@ -66,6 +67,8 @@ def batch_sync_items():
     items = frappe.db.get_all("Item")
 
     error = False
+    make_woocommerce_log(title=e, status="Batch Sync Started", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={},
+                request_data={}, exception=True)
     for batch in chunks(items, ITEMS_PER_BATCH):
         error = False
         create, update = [], []
@@ -114,6 +117,7 @@ def batch_sync_items():
             log(d)
 
         time.sleep(SLEEP_TIME)
+    make_woocommerce_log(title=e, status="Batch Sync Finished", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={},
 
 
 def sync_product_categories(item_group=None):
