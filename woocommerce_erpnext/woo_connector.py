@@ -142,7 +142,6 @@ def sync_product_categories(item_group=None):
     print("Syncing categories: ", categories)
 
     for d in frappe.db.get_list("Item Group", fields=['name', 'woocommerce_id_za', 'woocommerce_check_za']):
-        print(d.name)
         if d.woocommerce_check_za:
             if not item_group or item_group == d.name:
                 if not d.woocommerce_id_za:
