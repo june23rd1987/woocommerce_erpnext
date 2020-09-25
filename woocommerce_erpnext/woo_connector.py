@@ -141,19 +141,22 @@ def sync_product_categories(item_group=None):
 
     print("Syncing categories: ", categories)
 
-    for d in frappe.db.get_list("Item Group", fields=['name', 'woocommerce_id_za']):
-        if not item_group or item_group == d.name:
-            if not d.woocommerce_id_za:
-                if categories.get(d.name):
-                    # update erpnext item group with woo id
-                    frappe.db.set_value("Item Group", d.name, "woocommerce_id_za", categories.get(d.name))
+    for d in frappe.db.get_list("Item Group", fields=['name', 'woocommerce_id_za', 'woocommerce_check_za']):
+        if d.woocommerce_check_za:
+            if not item_group or item_group == d.name:
+                if not d.woocommerce_id_za:
+                    if categories.get(d.name):
+                        # update erpnext item group with woo id
+                        frappe.db.set_value("Item Group", d.name, "woocommerce_id_za", categories.get(d.name))
+                    else:
+                        # create category in woo
+                        product_category_id = make_category(d.name)
+                        frappe.db.set_value("Item Group", d.name, 'woocommerce_id_za', product_category_id)
                 else:
-                    # create category in woo
-                    product_category_id = make_category(d.name)
-                    frappe.db.set_value("Item Group", d.name, 'woocommerce_id_za', product_category_id)
-            else:
-                if not categories.get(d.name) or not categories.get(d.name) == cint(d.woocommerce_id_za):
-                    frappe.throw("Item group %s (%s) does not match WooCommerce Product Category %s" % (d.name, d.woocommerce_id_za, categories.get(d.name)))
+                    if not categories.get(d.name) or not categories.get(d.name) == cint(d.woocommerce_id_za):
+                        frappe.throw("Item group %s woocommerce_id_za(%s) does not match WooCommerce Product Category %s" % (d.name, d.woocommerce_id_za, categories.get(d.name)))
+        else:
+            frappe.throw("Item group %s woocommerce_id_za(%s) Sync Disabled" % (d.name, d.woocommerce_id_za))
 
     frappe.db.commit()
 
