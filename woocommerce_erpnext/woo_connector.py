@@ -110,13 +110,17 @@ def batch_sync_items():
         #pprint(r.get("create", []))
         #print("************************")
         for d in r.get("create", []):
-            print("######################################")
-            pprint(d)
-            print("######################################")
             try:
                 doc = frappe.get_doc("Item", d)
             except IndexError:
-                print("Skipped")
+                print("************************")
+                print("IndexError Skipping")
+                print("************************")
+                continue #skip
+            except pymysql.err.ProgrammingError:
+                print("************************")
+                print("pymysql.err.ProgrammingError Skipping")
+                print("************************")
                 continue #skip
             
             ##JUPITER
