@@ -106,12 +106,14 @@ def batch_sync_items():
         print("Batch - %s" % frappe.utils.now())
         r = get_connection().put("products/batch", post_data).json()
         
-        print("************************")
-        pprint(r.get("create", []))
-        print("************************")
+        #print("************************")
+        #pprint(r.get("create", []))
+        #print("************************")
         for d in r.get("create", []):
             doc = frappe.get_doc("Item", d)
+            print("************************")
             pprint(d)
+            print("************************")
             ##JUPITER
             if doc.sync_with_woocommerce != 1:
                 print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
