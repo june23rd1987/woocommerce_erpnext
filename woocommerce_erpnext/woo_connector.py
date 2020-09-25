@@ -11,6 +11,7 @@ import json
 import time
 
 from .utils import make_woocommerce_log, disable_woocommerce_sync_for_item
+from pprint import pprint
 
 def handle_response_error(r):
     if r.get("message"):
@@ -104,7 +105,10 @@ def batch_sync_items():
 
         print("Batch - %s" % frappe.utils.now())
         r = get_connection().put("products/batch", post_data).json()
-
+        
+        print("************************")
+        pprint(r.get("create", []))
+        print("************************")
         for d in r.get("create", []):
             doc = frappe.get_doc("Item", d)
             print(d)
