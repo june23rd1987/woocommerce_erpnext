@@ -107,6 +107,7 @@ def batch_sync_items():
 
         for d in r.get("create", []):
             doc = frappe.get_doc("Item", d)
+            print(d)
             ##JUPITER
             if doc.sync_with_woocommerce != 1:
                 print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
@@ -115,8 +116,7 @@ def batch_sync_items():
                 print("skipped : %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             #JUPITER
-            frappe.db.set_value("Item", {"item_name": d.get(
-                "name")}, "woocommerce_id", d.get("id"))    #woocommerce_product_id
+            frappe.db.set_value("Item", {"item_name": d.get("name")}, "woocommerce_id", d.get("id"))                    #woocommerce_product_id
             log(d)
 
         for d in r.get("update", []):
