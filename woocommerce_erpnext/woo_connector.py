@@ -10,6 +10,7 @@ from erpnext.erpnext_integrations.connectors.woocommerce_connection import (
 import json
 import time
 
+import pymysql
 from .utils import make_woocommerce_log, disable_woocommerce_sync_for_item
 from pprint import pprint
 
