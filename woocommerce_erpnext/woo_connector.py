@@ -110,9 +110,9 @@ def batch_sync_items():
         #pprint(r.get("create", []))
         #print("************************")
         for d in r.get("create", []):
-            print("************************")
+            print("######################################")
             pprint(d)
-            print("************************")
+            print("######################################")
             try:
                 doc = frappe.get_doc("Item", d)
             except IndexError:
