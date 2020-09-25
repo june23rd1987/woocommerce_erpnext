@@ -157,7 +157,7 @@ def sync_product_categories(item_group=None):
                     if not categories.get(d.name) or not categories.get(d.name) == cint(d.woocommerce_id_za):
                         frappe.throw("Item group %s woocommerce_id_za(%s) does not match WooCommerce Product Category %s" % (d.name, d.woocommerce_id_za, categories.get(d.name)))
         else:
-            frappe.throw("Item group %s woocommerce_id_za(%s) Sync Disabled" % (d.name, d.woocommerce_id_za))
+            print("Item group %s woocommerce_id_za(%s) Sync Disabled" % (d.name, d.woocommerce_id_za))
 
     frappe.db.commit()
 
