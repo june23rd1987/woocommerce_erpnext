@@ -75,8 +75,8 @@ def batch_sync_items():
     items = frappe.db.get_all("Item")
 
     error = False
-    make_woocommerce_log(title="Auto Batch Sync Log", status="Started", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={},
-                request_data={}, exception=True)
+    #make_woocommerce_log(title="Auto Batch Sync Log", status="Started", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={},
+    #            request_data={}, exception=True)
     for batch in chunks(items, ITEMS_PER_BATCH):
         error = False
         create, update = [], []
