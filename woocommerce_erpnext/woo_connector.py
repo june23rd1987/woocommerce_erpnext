@@ -141,7 +141,7 @@ def batch_sync_items():
             log(d)
 
         time.sleep(SLEEP_TIME)
-    make_woocommerce_log(title="Auto Batch Sync Log", status="Success", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={}, request_data={}, exception=True)
+    #make_woocommerce_log(title="Auto Batch Sync Log", status="Success", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={}, request_data={}, exception=True)
 
 
 def sync_product_categories(item_group=None):
