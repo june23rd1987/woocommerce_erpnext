@@ -185,7 +185,7 @@ def on_validate_item(doc,method=None):
 
 @frappe.whitelist()
 def on_update_item(doc, method=None):
-    if not doc.woocommerce_id:                                  #woocommerce_product_id
+    if not doc.woocommerce_id:                                                          #woocommerce_product_id
         make_item(doc)
     else:
         product = get_mapped_product(doc)
@@ -193,8 +193,8 @@ def on_update_item(doc, method=None):
         print("response : %s" % r)
 
 def on_delete_item(doc,method=None):
-    if doc.woocommerce_id:                                  #woocommerce_product_id
-        r = get_connection().delete("products/"+str(doc.woocommerce_id))        #woocommerce_product_id
+    if doc.woocommerce_id:                                                              #woocommerce_product_id
+        r = get_connection().delete("products/"+str(doc.woocommerce_id))                #woocommerce_product_id
         print(r)
 
 def on_delivery_submit(delivery, method=None):
