@@ -107,9 +107,9 @@ def batch_sync_items():
         print("Batch - %s" % frappe.utils.now())
         r = get_connection().put("products/batch", post_data).json()
         
-        #print("************************")
-        #pprint(r.get("create", []))
-        #print("************************")
+        print("************************************************************************")
+        pprint(r.get("create", []))
+        print("************************************************************************")
         for d in r.get("create", []):
             try:
                 doc = frappe.get_doc("Item", d)
