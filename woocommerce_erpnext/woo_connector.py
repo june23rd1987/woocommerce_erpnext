@@ -108,7 +108,7 @@ def batch_sync_items():
         r = get_connection().put("products/batch", post_data).json()
         
         print("************************************************************************")
-        pprint(r.get("create", []))
+        pprint(r)
         print("************************************************************************")
         for d in r.get("create", []):
             try:
