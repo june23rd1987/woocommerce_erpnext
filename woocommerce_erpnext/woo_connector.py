@@ -85,10 +85,10 @@ def batch_sync_items():
             doc = frappe.get_doc("Item", d)
             
             ##JUPITER
-            if doc.sync_with_woocommerce != 1:
+            if not doc.sync_with_woocommerce:
                 print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
-            if doc.disabled != 0:
+            if doc.disabled:
                 print("skipped : %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             #JUPITER
