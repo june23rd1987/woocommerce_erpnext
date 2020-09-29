@@ -86,10 +86,10 @@ def batch_sync_items():
             
             ##JUPITER
             if not doc.sync_with_woocommerce:
-                print("skipped : %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
+                print("skipped not doc.sync_with_woocommerce: %s - %s is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             if doc.disabled:
-                print("skipped : %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
+                print("skipped doc.disabled: %s - %s is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             #JUPITER
             
@@ -128,10 +128,10 @@ def batch_sync_items():
             
             ##JUPITER
             if not doc.sync_with_woocommerce:
-                print("skipped : doc.item_name(%s) - doc.woocommerce_id(%s) is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
+                print("skipped not doc.sync_with_woocommerce: doc.item_name(%s) - doc.woocommerce_id(%s) is sync_with_woocommerce !=1 not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             if doc.disabled:
-                print("skipped : doc.item_name(%s) - doc.woocommerce_id(%s) is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
+                print("skipped doc.disabled: doc.item_name(%s) - doc.woocommerce_id(%s) is disabled not allowed to sync" % (doc.item_name, doc.woocommerce_id) )
                 continue;
             #JUPITER
             frappe.db.set_value("Item", {"item_name": d.get("name")}, "woocommerce_id", d.get("id"))                    #woocommerce_product_id
