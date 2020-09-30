@@ -201,7 +201,7 @@ def on_update_item(doc, method=None):
         product = get_mapped_product(doc)
         r = get_connection().put("products/"+str(doc.woocommerce_id), product)          #woocommerce_product_id
         print("response : %s" % r)
-        make_woocommerce_log(title="woocommerce_erpnext.on_update_item.update_item", status="Success", method="woocommerce_erpnext.on_update_item.update_item", message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)
+        #make_woocommerce_log(title="woocommerce_erpnext.on_update_item.update_item", status="Success", method="woocommerce_erpnext.on_update_item.update_item", message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)
 
 def on_delete_item(doc,method=None):
     if doc.woocommerce_id:                                                              #woocommerce_product_id
