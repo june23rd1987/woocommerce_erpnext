@@ -196,7 +196,6 @@ def on_validate_item(doc,method=None):
 def on_update_item(doc, method=None):
     if not doc.woocommerce_id:                                                          #woocommerce_product_id
         make_item(doc)
-        make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Success", method="woocommerce_erpnext.on_update_item.make_item", message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)
     else:
         product = get_mapped_product(doc)
         r = get_connection().put("products/"+str(doc.woocommerce_id), product)          #woocommerce_product_id
@@ -307,6 +306,8 @@ def get_mapped_product(item_doc):
 
 def make_item(item_doc):
     if item_doc.sync_with_woocommerce == 1 and item_doc.disabled == 0:  #jupiter
+        make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Started", method="woocommerce_erpnext.on_update_item.make_item",
+                             message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)
         sync_product_categories(item_group=item_doc.item_group)
         product = get_mapped_product(item_doc)
         print(product)
@@ -316,8 +317,12 @@ def make_item(item_doc):
         frappe.db.set_value("Item", item_doc.item_code,
                             "woocommerce_id", woocommerce_id)               #woocommerce_product_id
         frappe.db.commit()
+        make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Success", method="woocommerce_erpnext.on_update_item.make_item",
+                             message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)        
         return woocommerce_id                                               #woocommerce_product_id
     else:
+        make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Pending", method="woocommerce_erpnext.on_update_item.make_item",
+                             message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)
         print("make_item skipped : %s - %s is sync_with_woocommerce!=1 or disabled == 0: not allowed to sync" % (item_doc.item_name, item_doc.woocommerce_id) ) #jupiter
         
     
