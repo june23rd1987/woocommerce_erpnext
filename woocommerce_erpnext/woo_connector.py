@@ -307,18 +307,18 @@ def get_mapped_product(item_doc):
 def make_item(item_doc):
     if item_doc.sync_with_woocommerce == 1 and item_doc.disabled == 0:  #jupiter
         make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Started", method="woocommerce_erpnext.on_update_item.make_item",
-                             message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)
+                             message=frappe.get_traceback(), request_data=item_doc.woocommerce_id, exception=True)
         sync_product_categories(item_group=item_doc.item_group)
         product = get_mapped_product(item_doc)
-        print(product)
+        pprint(product)
         r = get_connection().post("products", product).json()
-        print(r)
+        pprint(r)
         woocommerce_id = r.get("id")                                        #woocommerce_product_id
         frappe.db.set_value("Item", item_doc.item_code,
                             "woocommerce_id", woocommerce_id)               #woocommerce_product_id
         frappe.db.commit()
         make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Success", method="woocommerce_erpnext.on_update_item.make_item",
-                             message=frappe.get_traceback(), request_data=doc.woocommerce_id, exception=True)        
+                             message=frappe.get_traceback(), request_data=item_doc.woocommerce_id, exception=True)        
         return woocommerce_id                                               #woocommerce_product_id
     else:
         make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Pending", method="woocommerce_erpnext.on_update_item.make_item",
