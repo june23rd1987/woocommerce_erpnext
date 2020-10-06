@@ -35,15 +35,15 @@ def get_connection():
 @frappe.whitelist()
 def sync_all_items():
     # sync erpnext items to WooCommerce product
-    make_woocommerce_log(title="Auto Hourly Sync Log", status="Started", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={},
+    make_woocommerce_log(title="Auto Hourly Sync Log", status="Started", method="woo_connector.sync_all_items", message={},
                 request_data={}, exception=True)
     
     for d in frappe.db.get_all("Item"):
         #on_update_item(frappe.get_doc("Item", d))
         frappe.enqueue(on_update_item, doc=frappe.get_doc("Item", d))
-        print("updated %s" % d)
+        print("Hourly Updated %s" % d)
         
-    make_woocommerce_log(title="Auto Hourly Sync Log", status="Success", method="woocommerce_erpnext.woo_connector.batch_sync_items", message={},
+    make_woocommerce_log(title="Auto Hourly Sync Log", status="Success", method="woo_connector.sync_all_items", message={},
                 request_data={}, exception=True)
 
 
