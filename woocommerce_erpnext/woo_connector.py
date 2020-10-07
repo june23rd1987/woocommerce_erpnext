@@ -105,8 +105,16 @@ def batch_sync_items():
             post_data["update"] = update
 
         print("Batch - %s" % frappe.utils.now())
-        r = get_connection().put("products/batch", post_data).json()
         
+        try:
+            r = get_connection().put("products/batch", post_data).json()
+        except rq.timeouts.JobTimeoutException as rqe:
+            print("************************")
+            print("rq.timeouts.JobTimeoutException Skipping")
+            print(rqe)
+            print("************************")
+            continue #skip
+
         print("************************************************************************")
         pprint(r)
         print("************************************************************************")
