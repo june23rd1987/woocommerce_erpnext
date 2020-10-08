@@ -108,9 +108,9 @@ def batch_sync_items():
         
         try:
             r = get_connection().put("products/batch", post_data).json()
-        except rq.timeouts.JobTimeoutException as rqe:
+        except Exception as rqe:
             print("************************")
-            print("rq.timeouts.JobTimeoutException Skipping")
+            print("Exception Skipping")
             print(rqe)
             print("************************")
             continue #skip
