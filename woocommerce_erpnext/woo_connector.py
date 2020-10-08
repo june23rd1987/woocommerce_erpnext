@@ -329,8 +329,8 @@ def make_item(item_doc):
                              message=frappe.get_traceback(), request_data=item_doc.woocommerce_id, exception=True)        
         return woocommerce_id                                               #woocommerce_product_id
     else:
-        make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Queued", method="woocommerce_erpnext.on_update_item.make_item",
-                             message=frappe.get_traceback(), request_data=item_doc.woocommerce_id, exception=True)
+        #make_woocommerce_log(title="woocommerce_erpnext.on_update_item.make_item", status="Queued", method="woocommerce_erpnext.on_update_item.make_item",
+        #                     message=frappe.get_traceback(), request_data=item_doc.woocommerce_id, exception=True)
         print("make_item skipped : %s - %s is sync_with_woocommerce!=1 or disabled == 0: not allowed to sync" % (item_doc.item_name, item_doc.woocommerce_id) ) #jupiter
         
     
