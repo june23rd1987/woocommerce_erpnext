@@ -170,6 +170,8 @@ def sync_product_categories(item_group=None):
     #r = get_connection().get("products/categories?per_page=100").json()
     categories = {}
     print("r: %s" % r)
+    make_woocommerce_log(title="woocommerce_erpnext.sync_product_categories", status="Started", method="woocommerce_erpnext.sync_product_categories",
+                             message="Print r", request_data=r, exception=True)
     for d in r:
         print("data : %s" % d["name"])
         categories[d["name"]] = d["id"]
